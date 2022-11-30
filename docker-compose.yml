@@ -1,0 +1,37 @@
+version: "3"
+
+networks:
+    bb_core:
+
+
+services:
+
+  bb_core:
+    container_name: bb_core
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/app
+    ports:
+      - "9098:9098"
+    environment:
+      - APP_ENV=development
+    networks:
+      - bb_core
+    expose:
+      - '9098'
+
+  bb_core_mysql:
+    container_name: bb_core_mysql
+    image: mariadb
+
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_DATABASE: bb_core
+    networks:
+      - bb_core
+    expose:
+      - '3306'
